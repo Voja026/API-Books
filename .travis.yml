@@ -11,4 +11,4 @@ before_script:
 - node_modules/.bin/newman --version
 
 script:
-- node_modules/.bin/newman run GoogleApiBooks.postman_collection.json -d id.csv
+- node_modules/.bin/newman run GoogleApiBooks.postman_collection.json -d '.\id.csv'
