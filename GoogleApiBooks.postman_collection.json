@@ -1,0 +1,508 @@
+{
+	"info": {
+		"_postman_id": "20d8aa48-bce9-40f2-abe4-b28a035059d5",
+		"name": "Google API Books",
+		"description": "# Google books API testing",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "List all books",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Response time is less than 200ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "in",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "API_KEY",
+							"type": "string"
+						},
+						{
+							"key": "value",
+							"value": "AIzaSyCcckdm362ZqYc2Sff-0b_NB1FMlkr8ERY",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://www.googleapis.com/books/v1/volumes?q=list books",
+					"protocol": "https",
+					"host": [
+						"www",
+						"googleapis",
+						"com"
+					],
+					"path": [
+						"books",
+						"v1",
+						"volumes"
+					],
+					"query": [
+						{
+							"key": "q",
+							"value": "list books"
+						}
+					]
+				},
+				"description": "# Scenario: List all books \n\nGiven that I want to see list of all books in my volumes\nWhen i search with list books\nThen i should have list of all books in that volume."
+			},
+			"response": []
+		},
+		{
+			"name": "Get specific Book with the ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"ID\", function() {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    console.log(jsonData.id);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Book ID vaild\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.id).to.not.be.undefined;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Book ID not array\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.id).to.not.be.an('array');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "in",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "API_KEY",
+							"type": "string"
+						},
+						{
+							"key": "value",
+							"value": "AIzaSyCcckdm362ZqYc2Sff-0b_NB1FMlkr8ERY",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://www.googleapis.com/books/v1/volumes/{{id}}",
+					"protocol": "https",
+					"host": [
+						"www",
+						"googleapis",
+						"com"
+					],
+					"path": [
+						"books",
+						"v1",
+						"volumes",
+						"{{id}}"
+					]
+				},
+				"description": "# Scenario: Find book by ID\n\nGiven that I want to find the book only by books ID\nWhen i enter ID of the book\nThen i should have list of book with the chosen ID."
+			},
+			"response": []
+		},
+		{
+			"name": "Get specific Book with two parameters",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Body includes word API\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"API\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Book Country validated\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.items[0].saleInfo.country).to.eql(\"FR\");\r",
+							"    pm.expect(jsonData.items[0].saleInfo.country).to.not.be.undefined;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "in",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "API_KEY",
+							"type": "string"
+						},
+						{
+							"key": "value",
+							"value": "AIzaSyCcckdm362ZqYc2Sff-0b_NB1FMlkr8ERY",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://www.googleapis.com/books/v1/volumes?q=API&country=FR",
+					"protocol": "https",
+					"host": [
+						"www",
+						"googleapis",
+						"com"
+					],
+					"path": [
+						"books",
+						"v1",
+						"volumes"
+					],
+					"query": [
+						{
+							"key": "q",
+							"value": "API"
+						},
+						{
+							"key": "country",
+							"value": "FR"
+						}
+					]
+				},
+				"description": "# Scenario: Find book with two parameters \n\nGiven that I want to find specific book with two arguments\nWhen i search with chosen word\nand i add second argument of country ID\nThen i should have matching book with arguments that i choose."
+			},
+			"response": []
+		},
+		{
+			"name": "Books by certain author",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check id\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.items[0].volumeInfo.authors).to.include('Eric Fottorino');\r",
+							"    pm.expect(jsonData.items[0].volumeInfo.authors).to.not.be.undefined;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "in",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "API_KEY",
+							"type": "string"
+						},
+						{
+							"key": "value",
+							"value": "AIzaSyCcckdm362ZqYc2Sff-0b_NB1FMlkr8ERY",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://www.googleapis.com/books/v1/volumes?q=Eric FOTTORINO",
+					"protocol": "https",
+					"host": [
+						"www",
+						"googleapis",
+						"com"
+					],
+					"path": [
+						"books",
+						"v1",
+						"volumes"
+					],
+					"query": [
+						{
+							"key": "langRestrict",
+							"value": "en",
+							"disabled": true
+						},
+						{
+							"key": "q",
+							"value": "Eric FOTTORINO"
+						}
+					]
+				},
+				"description": "# Scenario: Find a book by Author name\n\nGiven that I want to find book by author \nWhen i enter author name\nThen i should have list of all books written by that author"
+			},
+			"response": []
+		},
+		{
+			"name": "Books with max results",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"\r",
+							"pm.test(\"Check total items\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.items).to.be.an('array');\r",
+							"});\r",
+							"\r",
+							"\r",
+							"\r",
+							"pm.test(\"Check maxResults\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.items.length).to.eql(2)\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "in",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "API_KEY",
+							"type": "string"
+						},
+						{
+							"key": "value",
+							"value": "AIzaSyCcckdm362ZqYc2Sff-0b_NB1FMlkr8ERY",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://www.googleapis.com/books/v1/volumes?q=Eric FOTTORINO&maxResults=2",
+					"protocol": "https",
+					"host": [
+						"www",
+						"googleapis",
+						"com"
+					],
+					"path": [
+						"books",
+						"v1",
+						"volumes"
+					],
+					"query": [
+						{
+							"key": "q",
+							"value": "Eric FOTTORINO"
+						},
+						{
+							"key": "maxResults",
+							"value": "2"
+						}
+					]
+				},
+				"description": "# Scenario: Find book with two parameters \n\nGiven that I want to find specific book with two arguments\nWhen i search with chosen word\nand i add second argument of country ID\nThen i should have matching book with arguments that i choose."
+			},
+			"response": []
+		},
+		{
+			"name": "Books by random phrase",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.variables.set(\"randomPhase\", \"{{$randomPhrase}}\");"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", () => {\r",
+							"  pm.expect(pm.response.code).to.eql(200);\r",
+							"});\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.test(\"test random phrase\", function () {\r",
+							"    pm.expect(jsonData.description).to.eql(pm.variables.get(\"randomPhrase\"));\r",
+							"console.log(pm.response.json());\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "in",
+							"value": "query",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "API_KEY",
+							"type": "string"
+						},
+						{
+							"key": "value",
+							"value": "AIzaSyCcckdm362ZqYc2Sff-0b_NB1FMlkr8ERY",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://www.googleapis.com/books/v1/volumes?q={{randomPhrase}}",
+					"protocol": "https",
+					"host": [
+						"www",
+						"googleapis",
+						"com"
+					],
+					"path": [
+						"books",
+						"v1",
+						"volumes"
+					],
+					"query": [
+						{
+							"key": "langRestrict",
+							"value": "en",
+							"disabled": true
+						},
+						{
+							"key": "q",
+							"value": "{{randomPhrase}}"
+						}
+					]
+				},
+				"description": "# Scenario: Find a book by random phrase\n\nGiven that I want to find book by random phrase \nWhen i enter phrase\nThen i should have list of all books including that phrase in description"
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "apikey",
+		"apikey": [
+			{
+				"key": "value",
+				"value": "AIzaSyCcckdm362ZqYc2Sff-0b_NB1FMlkr8ERY",
+				"type": "string"
+			},
+			{
+				"key": "key",
+				"value": "API_KEY",
+				"type": "string"
+			},
+			{
+				"key": "in",
+				"value": "query",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "APIkey",
+			"value": "AIzaSyCcckdm362ZqYc2Sff-0b_NB1FMlkr8ERY"
+		},
+		{
+			"key": "ListBook",
+			"value": ""
+		}
+	]
+}
